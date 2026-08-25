@@ -3,7 +3,10 @@
 
 
 
+
+
 <!DOCTYPE html>
+<!-- City of Sacramento Utility Bill Estimator | v1.1 | Raftelis | 2026-08 -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -328,6 +331,12 @@ input[type="number"].input-invalid {
           <option value="1">1 inch</option>
           <option value="1-1/2">1-1/2 inch</option>
           <option value="2">2 inch</option>
+          <option value="3">3 inch</option>
+          <option value="4">4 inch</option>
+          <option value="6">6 inch</option>
+          <option value="8">8 inch</option>
+          <option value="10">10 inch</option>
+          <option value="12">12 inch</option>
         </select>
       </div>
       <div class="field">
@@ -1216,12 +1225,13 @@ function calcRes(){
     wFix.push(f); wVol.push(v);
 
     // wastewater
-    let w;
-    if(i===0){ // current = room tier (+over15)
-      w = D.wwRoomCurrent[roomIdx] + (roomIdx===5 ? extraRooms*D.wwOver15PerRoom : 0);
-    } else {   // proposed
-      w = (type==='mfr') ? D.wwMfrUnit[i]*units : D.wwSfrFlat[i];
-    }
+let w;
+if(i===0){ // current = room tier (+over15)
+  const baseWW = D.wwRoomCurrent[roomIdx] + (roomIdx===5 ? extraRooms*D.wwOver15PerRoom : 0);
+  w = (type==='mfr') ? baseWW * units : baseWW;
+} else {   // proposed
+  w = (type==='mfr') ? D.wwMfrUnit[i]*units : D.wwSfrFlat[i];
+}
     ww.push(w);
 
     let sTotal = f + v + w;
